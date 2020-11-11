@@ -1,0 +1,76 @@
+type Nft @entity {
+  id: ID!
+  creator: Account!
+  owner: Account!
+  approved: Account
+  salePrice: BigInt
+  token: Bytes!
+  symbol: String!
+  tokenId: BigInt!
+  tokenURI: String
+  name: String
+  description: String
+  yearCreated: String
+  createdBy: String
+  imageUri: String
+  imageHash: String
+  currentBid: BidLog
+  created: BigInt!
+  modified: BigInt
+  removed: BigInt
+}
+
+type Account @entity {
+  id: ID!
+  address: Bytes!
+  isCreator: Boolean
+  bids: [BidLog!]! @derivedFrom(field: "bidder")
+  created: [Nft!]! @derivedFrom(field: "creator")
+  nfts: [Nft!]! @derivedFrom(field: "owner")
+  nftsApproved: [Nft!]! @derivedFrom(field: "approved")
+}
+
+type BidLog @entity {
+  id: ID!
+  amount: BigInt!
+  bidder: Account!
+  nft: Nft!
+  token: Bytes!
+  timestamp: BigInt!
+}
+
+type SaleLog @entity {
+  id: ID!
+  amount: BigInt!
+  buyer: Account!
+  nft: Nft!
+  token: Bytes!
+  seller: Account!
+  timestamp: BigInt!
+}
+
+# ---------------------------------------------------------
+# Counts --------------------------------------------------
+# ---------------------------------------------------------
+
+# thegraph doesn't support count operations, but we need them to paginate results
+# This entity is a workaround to this issue, but it's still not enough, as we'd need counts for more complex queries
+type Count @entity {
+  id: ID!
+
+  nftTotal: Int!
+  nftRariTotal: Int!
+  nftSuprTotal: Int!
+
+  bidTotal: Int!
+  bidAmountTotal: BigInt!
+
+  saleTotal: Int!
+  saleRariTotal: Int!
+  saleSuprTotal: Int!
+  saleAmountTotal: BigInt!
+  saleRariAmountTotal: BigInt!
+  saleSuprAmountTotal: BigInt!
+
+  started: Int!
+}

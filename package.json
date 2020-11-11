@@ -1,0 +1,15 @@
+{
+  "name": "nft-aggregator",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "create-local": "graph create --node http://localhost:8020/ once/nft-aggregator",
+    "remove-local": "graph remove --node http://localhost:8020/ once/nft-aggregator",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 once/nft-aggregator"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.18.0",
+    "@graphprotocol/graph-ts": "0.18.0"
+  }
+}
