@@ -3,6 +3,8 @@ import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 import { ApolloProvider, Query } from 'react-apollo'
 import {
   Grid,
+  Card,
+  CardContent,
   Typography,
   LinearProgress,
 } from '@material-ui/core'
@@ -100,20 +102,33 @@ const BID_QUERY = gql`
     }
   }
 `
+const cardStyle = { 
+  float: 'left',
+  width: '25%',
+  margin: '10px',
+};
 
+const headlineStyle = { 
+  float: 'left',
+  width: '100%',
+  margin: '10px',
+  color: '#fafafa',
+  borderBottom: 'solid 1px #0ee565'
+};
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      Rarible: false,
-      SuperRare: false,
+      Rarible: true,
+      SuperRare: true,
+      AsyncArt: true,
       orderBy: "created",
     }
   }
 
   render() {
-    const { Rarible, SuperRare, orderBy } = this.state
+    const { Rarible, SuperRare, AsyncArt, orderBy } = this.state
 
     return (
       <ApolloProvider client={client}>
@@ -122,13 +137,17 @@ class App extends Component {
             <Header />
             <Filter
               orderBy={orderBy}
-              Rarible={Rarible}
-              SuperRare={SuperRare}
+              Rari={Rarible}
+              Supr={SuperRare}
+              Async={AsyncArt}
               onToggleRari={() =>
                 this.setState(state => ({ ...state, Rarible: !state.Rarible }))
               }
               onToggleSupr={() =>
                 this.setState(state => ({ ...state, SuperRare: !state.SuperRare }))
+              }
+              onToggleAsync={() =>
+                this.setState(state => ({ ...state, AsyncArt: !state.AsyncArt }))
               }
             />
             <Grid><br/><br/></Grid>
@@ -142,13 +161,36 @@ class App extends Component {
                     ) : (
                       <Grid container direction="column" spacing={16}>
                         <Grid>
-                          <Typography variant="title">
-                            Total NFTs {data.count.nftTotal} 
-                            Rarible ({data.count.nftRariTotal}) 
-                            SuperRare ({data.count.nftSuprTotal}) 
-                            Total Sold ({data.count.saleTotal}) 
-                            Total Value ({data.count.saleAmountTotal})
-                          </Typography>
+                        <Card style={cardStyle}>
+                          <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                              Total NFTs
+                            </Typography>
+                            <Typography component="h2" variant="h2">
+                              {data.count.nftTotal}
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                        <Card style={cardStyle}>
+                          <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                              Total Sold
+                            </Typography>
+                            <Typography component="h2" variant="h2">
+                              {data.count.saleTotal}
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                        <Card style={cardStyle}>
+                          <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                              Total Value
+                            </Typography>
+                            <Typography component="h2" variant="h2">
+                              ${Math.round(470 * data.count.saleAmountTotal / 1000000000000000000)} 
+                            </Typography>
+                          </CardContent>
+                        </Card>
                         </Grid>
                       </Grid>
                     )
@@ -174,12 +216,10 @@ class App extends Component {
                       <Error error={error} />
                     ) : (
                       <Grid container direction="column" spacing={16}>
-                        <Grid>
-                          <Typography variant="title">
+                          <Typography variant="h4" style={headlineStyle}>
                             Latest Minted Nfts
                           </Typography>
-                        </Grid>
-                        <Nfts nfts={data.nfts} />
+                          <Nfts nfts={data.nfts} />                        
                       </Grid>
                     )
                   }}
@@ -200,11 +240,9 @@ class App extends Component {
                       <Error error={error} />
                     ) : (
                       <Grid container direction="column" spacing={16}>
-                        <Grid>
-                          <Typography variant="title">
+                          <Typography variant="h4" style={headlineStyle}>
                             Latest Sold Nfts
                           </Typography>
-                        </Grid>
                         <Nfts nfts={data.saleLogs} />
                       </Grid>
                     )
@@ -226,11 +264,9 @@ class App extends Component {
                       <Error error={error} />
                     ) : (
                       <Grid container direction="column" spacing={16}>
-                        <Grid>
-                          <Typography variant="title">
+                          <Typography variant="h4" style={headlineStyle}>
                             Latest Bids
                           </Typography>
-                        </Grid>
                         <Nfts nfts={data.bidLogs} />
                       </Grid>
                     )

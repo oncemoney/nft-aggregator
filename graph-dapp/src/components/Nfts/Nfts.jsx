@@ -10,8 +10,7 @@ import {
   withStyles,
 } from '@material-ui/core'
 
-const nftStyles = theme =>
-  createStyles({
+const nftStyles = theme => createStyles({
     actionArea: {
       maxWidth: 300,
     },
@@ -94,7 +93,7 @@ const Nft = ({ classes, item }) => {
 const StyledNft = withStyles(nftStyles)(Nft)
 
 const Nfts = ({ nfts }) => (
-      <Grid container direction="row" spacing={16}>
+      <Grid container direction="row" alignItems="center"  spacing={16}>
         {nfts.map(nft => (
           <StyledNft key={nft.id} item={nft} />
         ))}

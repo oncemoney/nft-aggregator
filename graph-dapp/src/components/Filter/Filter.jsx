@@ -16,8 +16,10 @@ const Filter = ({
   classes,
   onToggleRari,
   onToggleSupr,
+  onToggleAsync,
   Rari,
   Supr,
+  Async,
 }) => (
   <Grid item>
     <Grid container direction="row">
@@ -43,8 +45,8 @@ const Filter = ({
       <FormControlLabel
         control={
           <Checkbox
-            checked={Supr}
-            onChange={event => onToggleSupr && onToggleSupr()}
+            checked={Async}
+            onChange={event => onToggleAsync && onToggleAsync()}
           />
         }
         label="Async Art"

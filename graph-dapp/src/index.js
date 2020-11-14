@@ -19,12 +19,13 @@ const themeDark = createMuiTheme({
       default: "#222222"
     },
     text: {
+        default: "#ffffff",
         primary: "#0ee565"
     }
   }
 });
 
-const component = () => {
+const AppRoot = () => {
   const [light, setLight] = React.useState(true);
   return (
     <MuiThemeProvider theme={light ? themeDark : themeLight}>
@@ -35,4 +36,4 @@ const component = () => {
 };
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<component />, rootElement);
+ReactDOM.render(<AppRoot />, rootElement);

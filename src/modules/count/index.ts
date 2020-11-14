@@ -46,14 +46,14 @@ export function buildCountFromSale(sale: SaleLog): Count {
   let nft = Nft.load(sale.nft)
 
   count.saleTotal += 1
-  count.saleAmountTotal.plus(sale.amount)
+  count.saleAmountTotal= count.saleAmountTotal.plus(sale.amount)
 
   if (nft.symbol == "RARI") {
     count.saleRariTotal += 1
-    count.saleRariAmountTotal.plus(sale.amount)
+    count.saleRariAmountTotal = count.saleRariAmountTotal.plus(sale.amount)
   } else if (nft.symbol == "SUPR") {
     count.saleSuprTotal += 1
-    count.saleSuprAmountTotal.plus(sale.amount)
+    count.saleSuprAmountTotal = count.saleSuprAmountTotal.plus(sale.amount)
   } 
   return count
 }
@@ -62,7 +62,7 @@ export function buildCountFromBid(bid: BidLog): Count {
   let count = buildCount()
 
   count.bidTotal += 1
-  count.bidAmountTotal.plus(bid.amount)
+  count.bidAmountTotal = count.bidAmountTotal.plus(bid.amount)
 
   return count
 }
